@@ -1,25 +1,56 @@
 "use client";
-import SearchBar from "@/components/SearchBar";
+
 import { useEffect, useState } from "react";
+import SearchBar from "@/components/SearchBar";
+import TeamChip from "@/components/TeamChip";
 
 export default function Home() {
   const [teams, setTeams] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
-  const filteredTeams = teams.filter((team) =>
-    team.toLowerCase().includes(search.toLowerCase())
-  );
-
+  const [matches, setMatches] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/teams")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setTeams(data);
       })
       .catch((error) => console.error(error));
   }, []);
+
+  useEffect(() => {
+    if (selectedTeams.length === 0) {
+      setMatches([]);
+      return;
+    }
+
+    fetch (`http://127.0.0.1:8000/matches?teams=${selectedTeams.join(",")}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setMatches(data);
+      })
+      .catch((error) => console.error(error));
+  }, [selectedTeams]);
+
+  const filteredTeams = teams.filter(
+    (team) =>
+      team.toLowerCase().includes(search.toLowerCase()) &&
+      !selectedTeams.includes(team)
+  );
+
+  const addTeam = (team: string) => {
+    if (selectedTeams.includes(team)) return;
+
+    setSelectedTeams([...selectedTeams, team]);
+    setSearch("");
+  };
+
+  const removeTeam = (team: string) => {
+    setSelectedTeams(
+      selectedTeams.filter((t) => t !== team)
+    );
+  };
 
   return (
     <main className="min-h-screen p-8">
@@ -31,18 +62,34 @@ export default function Home() {
         Teams
       </h2>
 
-      <SearchBar search={search} setSearch={setSearch} />
-
-      <ul className="space-y-2">
-        {filteredTeams.map((team) => (
-          <li
+      <div className="flex flex-wrap gap-2 mb-4">
+        {selectedTeams.map((team) => (
+          <TeamChip
             key={team}
-            className="border rounded-lg p-3"
-          >
-            {team}
-          </li>
+            team={team}
+            onRemove={removeTeam}
+          />
         ))}
-      </ul>
+      </div>
+
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+      />
+
+      {search.trim() !== "" && (
+        <div className="mt-2 rounded-lg border overflow-hidden">
+          {filteredTeams.slice(0, 8).map((team) => (
+            <button
+              key={team}
+              onClick={() => addTeam(team)}
+              className="block w-full text-left p-3 hover:bg-gray-100 hover:text-black transition"
+            >
+              {team}
+            </button>
+          ))}
+        </div>
+      )}
     </main>
   );
 }

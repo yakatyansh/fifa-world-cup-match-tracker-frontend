@@ -3,9 +3,9 @@ type SearchBarProps = {
   setSearch: (search: string) => void;
 };
 
-export default function SearchBar({search, setSearch}: SearchBarProps) {
+export default function SearchBar({ search, setSearch }: SearchBarProps) {
   return (
-   <input
+    <input
       type="text"
       placeholder="Search national teams..."
       value={search}
@@ -13,5 +13,5 @@ export default function SearchBar({search, setSearch}: SearchBarProps) {
       className="w-full rounded-lg border p-3"
     />
   );
-}   
+}
 
