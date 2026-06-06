@@ -1,5 +1,5 @@
 "use client";
-
+import MatchCard from "@/components/MatchCard";
 import { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import TeamChip from "@/components/TeamChip";
@@ -90,6 +90,14 @@ export default function Home() {
           ))}
         </div>
       )}
+      <div className="mt-8">
+  {matches.map((match, index) => (
+    <MatchCard
+      key={index}
+      match={match}
+    />
+  ))}
+</div>
     </main>
   );
 }
