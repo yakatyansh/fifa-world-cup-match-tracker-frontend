@@ -3,6 +3,7 @@ import MatchCard from "@/components/MatchCard";
 import { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import TeamChip from "@/components/TeamChip";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   const [teams, setTeams] = useState<string[]>([]);
@@ -53,10 +54,15 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-6">
-        FIFA World Cup 2026 Tracker
-      </h1>
+  <main className="min-h-screen bg-[#f4f5f7]">
+
+    {/* Hero Section */}
+    <section className="bg-[#091628] px-8 py-20">
+      <Hero />
+    </section>
+
+    {/* Main Content */}
+    <section className="max-w-6xl mx-auto px-6 py-10">
 
       <h2 className="text-2xl font-semibold mb-4">
         Teams
@@ -83,21 +89,49 @@ export default function Home() {
             <button
               key={team}
               onClick={() => addTeam(team)}
-              className="block w-full text-left p-3 hover:bg-gray-100 hover:text-black transition"
+              className="
+                block
+                w-full
+                text-left
+                p-3
+                hover:bg-gray-100
+                hover:text-black
+                transition
+              "
             >
               {team}
             </button>
           ))}
         </div>
       )}
-      <div className="mt-8">
-  {matches.map((match, index) => (
-    <MatchCard
-      key={index}
-      match={match}
-    />
-  ))}
-</div>
-    </main>
-  );
+
+      {/* Future Stats Bar Goes Here */}
+
+      <div className="mt-10">
+
+        {matches.length > 0 && (
+          <h2 className="
+            text-blue-500
+            font-bold
+            tracking-wider
+            uppercase
+            mb-4
+          ">
+            Your Schedule
+          </h2>
+        )}
+
+        {matches.map((match, index) => (
+          <MatchCard
+            key={index}
+            match={match}
+          />
+        ))}
+
+      </div>
+
+    </section>
+
+  </main>
+);
 }

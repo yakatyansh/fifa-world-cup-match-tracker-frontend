@@ -17,7 +17,7 @@ export default function MatchCard({
   match,
 }: MatchCardProps) {
   return (
-    <div className="border border-l-4 border-l-blue-500 rounded-xl p-5 mb-4 hover:border-blue-400 transition-all ">
+    <div className="border border-l-4 border-l-blue-500 rounded-xl p-5 mb-4 hover:border-blue-400 transition-all bg-white">
       <span
         className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-sm mb-6 ">
         GROUP {match.group}
@@ -42,7 +42,7 @@ export default function MatchCard({
               height: "2.5rem",
             }}
           />
-          <h2 className="text-3xl md:text-4xl font-bold mt-2">
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 text-shadow-black">
             {match.home_team}
           </h2>
         </div>
