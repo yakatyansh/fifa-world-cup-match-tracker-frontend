@@ -59,7 +59,7 @@ export default function Home() {
   className={`min-h-screen transition-colors duration-300 ${
     theme === "dark"
       ? "bg-black text-white"
-      : "bg-slate-100 text-slate-900"
+      : "bg-[#deebfe] text-slate-900"
   }`}
 >
     <button
@@ -81,7 +81,7 @@ export default function Home() {
   className={
     theme === "dark"
       ? "bg-[#091628]"
-      : "bg-gray-200"
+      : "bg-[#a5a5a5]"
   }
 >
       <Hero theme={theme}/>
