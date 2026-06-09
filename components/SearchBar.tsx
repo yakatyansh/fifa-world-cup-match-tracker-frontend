@@ -1,9 +1,10 @@
 type SearchBarProps = {
   search: string;
   setSearch: (search: string) => void;
+  theme: string;
 };
 
-export default function SearchBar({ search, setSearch }: SearchBarProps) {
+export default function SearchBar({ search, setSearch, theme }: SearchBarProps) {
   return (
     <input
       type="text"

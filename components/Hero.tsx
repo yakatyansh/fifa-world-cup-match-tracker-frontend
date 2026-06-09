@@ -1,4 +1,11 @@
-export default function Hero() {
+type HeroProps = {
+  theme: string;
+};
+
+
+
+
+export default function Hero({ theme }: HeroProps) {
   return (
     <section className="mb-10">
       <p className="text-yellow-400 font-semibold tracking-[0.2em] uppercase mb-3">

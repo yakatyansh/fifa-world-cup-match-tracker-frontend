@@ -10,6 +10,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
   const [matches, setMatches] = useState([]);
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/teams")
@@ -54,14 +55,38 @@ export default function Home() {
   };
 
   return (
-  <main className="min-h-screen bg-[#f4f5f7]">
+ <main
+  className={`min-h-screen transition-colors duration-300 ${
+    theme === "dark"
+      ? "bg-black text-white"
+      : "bg-slate-100 text-slate-900"
+  }`}
+>
+    <button
+  onClick={() =>
+    setTheme(
+      theme === "dark"
+        ? "light"
+        : "dark"
+    )
+  }
+  className="px-4 py-2 rounded-lg border"
+>
+  {theme === "dark"
+    ? "☀️ Light"
+    : "🌙 Dark"}
+</button>
 
-    {/* Hero Section */}
-    <section className="bg-[#091628] px-8 py-20">
-      <Hero />
+    <section
+  className={
+    theme === "dark"
+      ? "bg-[#091628]"
+      : "bg-gray-200"
+  }
+>
+      <Hero theme={theme}/>
     </section>
 
-    {/* Main Content */}
     <section className="max-w-6xl mx-auto px-6 py-10">
 
       <h2 className="text-2xl font-semibold mb-4">
@@ -81,6 +106,7 @@ export default function Home() {
       <SearchBar
         search={search}
         setSearch={setSearch}
+        theme = {theme}
       />
 
       {search.trim() !== "" && (
@@ -125,6 +151,7 @@ export default function Home() {
           <MatchCard
             key={index}
             match={match}
+            theme={theme}
           />
         ))}
 

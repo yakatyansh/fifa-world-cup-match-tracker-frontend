@@ -11,6 +11,7 @@ type Match = {
 
 type MatchCardProps = {
   match: Match;
+  theme: string;
 };
 
 export default function MatchCard({
