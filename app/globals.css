@@ -1,26 +1,162 @@
 @import "tailwindcss";
 
+/* ============================================================
+   STADIUM PULSE — Design Tokens
+   Light theme on :root, dark theme on .dark
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Page & surface */
+  --sp-bg-page:           #F4F5F7;
+  --sp-bg-surface:        #FFFFFF;
+  --sp-bg-surface-raised: #FFFFFF;
+
+  /* Navy (nav + hero) */
+  --sp-navy:              #0A1628;
+  --sp-navy-mid:          #132240;
+
+  /* Blue (primary action) */
+  --sp-blue:              #0057B8;
+  --sp-blue-tint:         #E8EEF8;
+  --sp-blue-border:       #B5D4F4;
+
+  /* Gold — live / featured only */
+  --sp-gold:              #FFD700;
+  --sp-gold-bg:           #FFFBEB;
+  --sp-gold-text:         #92680A;
+
+  /* Text hierarchy */
+  --sp-text-primary:      #0A1628;
+  --sp-text-secondary:    #4A5568;
+  --sp-text-muted:        #8795A8;
+
+  /* Borders */
+  --sp-border:            rgba(10, 22, 40, 0.10);
+  --sp-border-strong:     rgba(10, 22, 40, 0.20);
+
+  /* Live */
+  --sp-live:              #E53E3E;
+
+  /* Semantic accents */
+  --sp-red:               #C81E1E;
+  --sp-red-bg:            #FEF2F2;
+  --sp-red-text:          #791F1F;
+  --sp-green:             #1A7A3A;
+  --sp-green-bg:          #F0FBF4;
+  --sp-green-text:        #145C2B;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --sp-bg-page:           #06101F;
+  --sp-bg-surface:        #0F1E33;
+  --sp-bg-surface-raised: #162844;
+
+  --sp-navy:              #0F1E33;
+  --sp-navy-mid:          #162844;
+
+  --sp-blue:              #4D9EF5;
+  --sp-blue-tint:         #0D2040;
+  --sp-blue-border:       #1A3A6A;
+
+  --sp-gold:              #FFD700;
+  --sp-gold-bg:           #1C1400;
+  --sp-gold-text:         #FFD700;
+
+  --sp-text-primary:      #EEF2F8;
+  --sp-text-secondary:    #8BAAC8;
+  --sp-text-muted:        #4A6080;
+
+  --sp-border:            rgba(180, 210, 255, 0.10);
+  --sp-border-strong:     rgba(180, 210, 255, 0.22);
+
+  --sp-live:              #FC6B6B;
+
+  --sp-red:               #FC8181;
+  --sp-red-bg:            #1A0505;
+  --sp-red-text:          #F09595;
+  --sp-green:             #68D391;
+  --sp-green-bg:          #052010;
+  --sp-green-text:        #9AE6B4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   Base
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--sp-bg-page);
+  color: var(--sp-text-primary);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+/* Hero diagonal stripe texture */
+.hero-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  pointer-events: none;
+}
+
+/* Live dot pulse */
+@keyframes sp-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.sp-live-dot {
+  animation: sp-pulse 1.6s ease-in-out infinite;
+}
+
+/* Card entrance stagger */
+@keyframes sp-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.sp-animate-in {
+  animation: sp-fade-up 0.28s ease both;
+}
+
+/* Dropdown item hover */
+.sp-dropdown-item:hover {
+  background-color: var(--sp-blue-tint);
+  color: var(--sp-blue);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--sp-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .sp-live-dot { animation: none; }
 }
