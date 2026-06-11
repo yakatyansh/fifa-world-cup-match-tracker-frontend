@@ -203,7 +203,7 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
       className="text-xs font-bold uppercase animate-pulse"
       style={{ color: "#ef4444" }}
     >
-      LIVE {match.time_elapsed}'
+      {match.time_elapsed}'
     </span>
   ) : (
     <span
