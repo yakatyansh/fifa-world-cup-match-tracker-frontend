@@ -33,11 +33,21 @@ export default function Home() {
 
   /* ── Fetch all teams on mount ─────────────────────────────────── */
   useEffect(() => {
-    fetch("https://fifa-world-cup-match-tracker-backend.onrender.com/teams")
-      .then((res) => res.json())
-      .then((data) => setTeams(data))
-      .catch((err) => console.error("Failed to fetch teams:", err));
-  }, []);
+  console.log("Fetching teams...");
+
+  fetch("https://fifa-world-cup-match-tracker-backend.onrender.com/teams")
+    .then((response) => {
+      console.log("STATUS:", response.status);
+      return response.json();
+    })
+    .then((data) => {
+      console.log("DATA:", data);
+      setTeams(data);
+    })
+    .catch((error) => {
+      console.error("ERROR:", error);
+    });
+}, []);
 
   /* ── Fetch matches whenever selected teams change ─────────────── */
   useEffect(() => {
