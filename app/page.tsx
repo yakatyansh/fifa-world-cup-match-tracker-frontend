@@ -33,7 +33,7 @@ export default function Home() {
 
   /* ── Fetch all teams on mount ─────────────────────────────────── */
   useEffect(() => {
-    fetch("https://fifa-world-cup-match-tracker-backend.onrender.com/matches")
+    fetch("https://fifa-world-cup-match-tracker-backend.onrender.com/teams")
       .then((res) => res.json())
       .then((data) => setTeams(data))
       .catch((err) => console.error("Failed to fetch teams:", err));
