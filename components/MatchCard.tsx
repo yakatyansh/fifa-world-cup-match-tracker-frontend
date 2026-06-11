@@ -135,7 +135,7 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
         color: "#fca5a5",
       }}
     >
-      LIVE
+      {match.time_elapsed}
     </span>
   ) : (
     <span
