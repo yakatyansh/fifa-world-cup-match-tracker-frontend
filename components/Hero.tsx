@@ -23,9 +23,9 @@ export default function Hero({ theme, onToggleTheme }: HeroProps) {
         <div className="w-full max-w-5xl mx-auto px-6 flex items-center justify-between gap-4">
 
           {/* Logo mark + wordmark */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-base flex-shrink-0"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0"
               style={{ backgroundColor: "var(--sp-blue)" }}
               aria-hidden="true"
             >
@@ -65,7 +65,7 @@ export default function Hero({ theme, onToggleTheme }: HeroProps) {
           <button
             onClick={onToggleTheme}
             aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-            className="flex-shrink-0 flex items-center gap-2 rounded-full text-[11px] font-semibold px-3 py-1.5 transition-colors duration-150"
+            className="shrink-0 flex items-center gap-2 rounded-full text-[11px] font-semibold px-3 py-1.5 transition-colors duration-150"
             style={{
               backgroundColor: "rgba(255,255,255,0.09)",
               border: "0.5px solid rgba(255,255,255,0.18)",
