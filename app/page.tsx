@@ -33,7 +33,7 @@ export default function Home() {
 
   /* ── Fetch all teams on mount ─────────────────────────────────── */
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/teams")
+    fetch("https://fifa-world-cup-match-tracker-backend.onrender.com/teams")
       .then((res) => res.json())
       .then((data) => setTeams(data))
       .catch((err) => console.error("Failed to fetch teams:", err));
@@ -45,7 +45,7 @@ export default function Home() {
       setMatches([]);
       return;
     }
-    fetch(`http://127.0.0.1:8000/matches?teams=${selectedTeams.join(",")}`)
+    fetch(`https://fifa-world-cup-match-tracker-backend.onrender.com/matches?teams=${selectedTeams.join(",")}`)
       .then((res) => res.json())
       .then((data) => setMatches(data))
       .catch((err) => console.error("Failed to fetch matches:", err));
