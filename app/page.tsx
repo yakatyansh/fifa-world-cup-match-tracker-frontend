@@ -12,6 +12,10 @@ type Match = {
   away_team: string;
   group: string;
   stadium: string;
+  home_score: string;
+  away_score: string;
+  finished: string;
+  time_elapsed: string;
 };
 
 export default function Home() {

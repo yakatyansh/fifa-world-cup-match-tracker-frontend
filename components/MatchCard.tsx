@@ -7,6 +7,10 @@ type Match = {
   away_team: string;
   group: string;
   stadium: string;
+  home_score: string;
+  away_score: string;
+  finished: string;
+  time_elapsed: string;
 };
 
 type MatchCardProps = {
@@ -59,21 +63,22 @@ function getAccent(teamName: string): string {
 }
 
 function formatDate(raw: string): string {
-  /* Handles both ISO strings and "DD Mon YYYY, HH:MM" format from scraper */
   try {
-    const d = new Date(raw);
-    if (!isNaN(d.getTime())) {
-      return d.toLocaleDateString("en-GB", {
+    const date = new Date(raw);
+
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleString("en-GB", {
         weekday: "short",
         day: "numeric",
         month: "short",
         year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     }
-  } catch {
-    /* fall through */
-  }
-  return raw; /* return raw string if it can't be parsed */
+  } catch {}
+
+  return raw;
 }
 
 export default function MatchCard({ match, index = 0 }: MatchCardProps) {
@@ -100,18 +105,50 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
       }
       aria-label={`${match.home_team} vs ${match.away_team}, Group ${match.group}`}
     >
-      {/* ── Top row: group badge ──────────────────────────────── */}
-      <div className="mb-4">
-        <span
-          className="inline-block text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded"
-          style={{
-            backgroundColor: "var(--sp-blue-tint)",
-            color: "var(--sp-blue)",
-          }}
-        >
-          Group {match.group}
-        </span>
-      </div>
+      {/* ── Top row: group + status ───────────────────────────── */}
+<div className="mb-4 flex items-center gap-2">
+  <span
+    className="inline-block text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded"
+    style={{
+      backgroundColor: "var(--sp-blue-tint)",
+      color: "var(--sp-blue)",
+    }}
+  >
+    Group {match.group}
+  </span>
+
+  {match.finished === "TRUE" ? (
+    <span
+      className="inline-block text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+      style={{
+        backgroundColor: "#14532d",
+        color: "#86efac",
+      }}
+    >
+      FT
+    </span>
+  ) : match.time_elapsed !== "notstarted" ? (
+    <span
+      className="inline-block text-[10px] font-bold uppercase px-2.5 py-1 rounded animate-pulse"
+      style={{
+        backgroundColor: "#7f1d1d",
+        color: "#fca5a5",
+      }}
+    >
+      LIVE
+    </span>
+  ) : (
+    <span
+      className="inline-block text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+      style={{
+        backgroundColor: "#1e3a8a",
+        color: "#93c5fd",
+      }}
+    >
+      UPCOMING
+    </span>
+  )}
+</div>
 
       {/* ── Teams row ──────────────────────────────────────────── */}
       <div className="grid grid-cols-3 items-center text-center gap-3 mb-5">
@@ -145,15 +182,38 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
           </span>
         </div>
 
-        {/* VS divider */}
-        <div className="flex flex-col items-center">
-          <span
-            className="text-xs font-semibold tracking-widest uppercase"
-            style={{ color: "var(--sp-text-muted)" }}
-          >
-            vs
-          </span>
-        </div>
+      {/* Score section */}
+<div className="flex flex-col items-center justify-center gap-1">
+  <span
+    className="text-2xl sm:text-3xl font-bold"
+    style={{ color: "var(--sp-text-primary)" }}
+  >
+    {match.home_score} - {match.away_score}
+  </span>
+
+  {match.finished === "TRUE" ? (
+    <span
+      className="text-xs font-bold uppercase"
+      style={{ color: "#22c55e" }}
+    >
+      FT
+    </span>
+  ) : match.time_elapsed !== "notstarted" ? (
+    <span
+      className="text-xs font-bold uppercase animate-pulse"
+      style={{ color: "#ef4444" }}
+    >
+      LIVE {match.time_elapsed}'
+    </span>
+  ) : (
+    <span
+      className="text-xs font-semibold uppercase"
+      style={{ color: "var(--sp-text-muted)" }}
+    >
+      Upcoming
+    </span>
+  )}
+</div>
 
         {/* Away team */}
         <div className="flex flex-col items-center gap-2">
