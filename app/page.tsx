@@ -80,6 +80,7 @@ export default function Home() {
       {/* ── Nav + Hero ────────────────────────────────────────────── */}
       <Hero
         theme={theme}
+        onToggleTheme={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
       />
 
       {/* ── Main content ──────────────────────────────────────────── */}
