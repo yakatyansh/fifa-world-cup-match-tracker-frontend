@@ -41,6 +41,7 @@ export default function Home() {
 
   /* ── Fetch matches whenever selected teams change ─────────────── */
   useEffect(() => {
+     console.log("Fetching teams...");
     if (selectedTeams.length === 0) {
       setMatches([]);
       return;
