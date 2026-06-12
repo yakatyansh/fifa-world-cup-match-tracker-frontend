@@ -6,6 +6,8 @@ import SearchBar from "@/components/SearchBar";
 import TeamChip from "@/components/TeamChip";
 import Hero from "@/components/Hero";
 
+type TeamLookup = Record<string, { iso2: string; flag?: string }>;
+
 type Match = {
   date: string;
   home_team: string;
@@ -18,6 +20,14 @@ type Match = {
   time_elapsed: string;
   home_scorers: string[];
   away_scorers: string[];
+};
+
+type Team = {
+  id: string;
+  name_en: string;
+  iso2: string;
+  flag: string;
+  group: string;
 };
 
 function normalizeScorers(value: string | string[] | undefined): string[] {
@@ -43,7 +53,7 @@ function normalizeMatch(raw: any): Match {
 }
 
 export default function Home() {
-  const [teams, setTeams]               = useState<string[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [search, setSearch]             = useState("");
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
   const [matches, setMatches]           = useState<Match[]>([]);
@@ -91,11 +101,11 @@ export default function Home() {
   }, [selectedTeams]);
 
   /* ── Helpers ──────────────────────────────────────────────────── */
-  const filteredTeams = teams.filter(
-    (team) =>
-      team.toLowerCase().includes(search.toLowerCase()) &&
-      !selectedTeams.includes(team)
-  );
+const filteredTeams = teams.filter(
+  (team) =>
+    team.name_en.toLowerCase().includes(search.toLowerCase()) &&
+    !selectedTeams.includes(team.name_en)
+);
 
   const addTeam = (team: string) => {
     if (selectedTeams.includes(team)) return;
@@ -109,6 +119,15 @@ export default function Home() {
 
   /* ── Groups represented in current matches ────────────────────── */
   const groups = [...new Set(matches.map((m) => m.group))].sort();
+  const teamLookup = Object.fromEntries(
+  teams.map((team) => [
+    team.name_en,
+    {
+      flag: team.flag,
+      iso2: team.iso2,
+    },
+  ])
+);
 
   return (
     <div
@@ -169,17 +188,13 @@ export default function Home() {
                 </p>
               ) : (
                 filteredTeams.slice(0, 8).map((team) => (
-                  <button
-                    key={team}
-                    role="option"
-                    aria-selected={false}
-                    onClick={() => addTeam(team)}
-                    className="sp-dropdown-item block w-full text-left px-4 py-2.5 text-sm transition-colors duration-100"
-                    style={{ color: "var(--sp-text-primary)" }}
-                  >
-                    {team}
-                  </button>
-                ))
+                    <button
+                      key={team.id}
+                      onClick={() => addTeam(team.name_en)}
+                    >
+                      {team.name_en}
+                    </button>
+                  ))
               )}
             </div>
           )}
@@ -275,6 +290,7 @@ export default function Home() {
                   match={match}
                   theme={theme}
                   index={index}
+                  teamLookup={teamLookup}
                 />
               ))}
             </div>

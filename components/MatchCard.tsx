@@ -1,5 +1,12 @@
-import ReactCountryFlag from "react-country-flag";
-import { countryCodes } from "../data/countryCodes";
+
+
+type TeamLookup = Record<
+  string,
+  {
+    flag: string;
+    iso2: string;
+  }
+>;
 
 type Match = {
   date: string;
@@ -19,13 +26,8 @@ type MatchCardProps = {
   match: Match;
   theme: string;
   index?: number;
+  teamLookup: TeamLookup;
 };
-
-/*
-  Left-border accent color per team.
-  Falls back to --sp-blue if the team isn't listed here.
-  Extend this map as your fixture data grows.
-*/
 const TEAM_ACCENT: Record<string, string> = {
   Brazil:      "#009c3b",
   England:     "#cf081f",
@@ -83,10 +85,12 @@ function formatDate(raw: string): string {
   return raw;
 }
 
-export default function MatchCard({ match, index = 0 }: MatchCardProps) {
+export default function MatchCard({ match, index = 0, teamLookup }: MatchCardProps) {
   const accent = getAccent(match.home_team);
-  const homeCode = countryCodes[match.home_team];
-  const awayCode = countryCodes[match.away_team];
+  const homeCode = teamLookup[match.home_team]?.iso2;
+  const awayCode = teamLookup[match.away_team]?.iso2;
+  const homeFlag = teamLookup[match.home_team]?.flag;
+  const awayFlag = teamLookup[match.away_team]?.flag;
 
   return (
     <article
@@ -157,12 +161,11 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
 
         {/* Home team */}
         <div className="flex flex-col items-center gap-2">
-          {homeCode ? (
-            <ReactCountryFlag
-              countryCode={homeCode}
-              svg
-              style={{ width: "2.5rem", height: "2.5rem", borderRadius: "50%" }}
-              title={match.home_team}
+          {homeFlag ? (
+        <img
+        src={homeFlag}
+        alt={match.home_team}
+        className="w-10 h-10 rounded-full object-cover"
             />
           ) : (
             <div
@@ -226,14 +229,13 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
 
         {/* Away team */}
         <div className="flex flex-col items-center gap-2">
-          {awayCode ? (
-            <ReactCountryFlag
-              countryCode={awayCode}
-              svg
-              style={{ width: "2.5rem", height: "2.5rem", borderRadius: "50%" }}
-              title={match.away_team}
-            />
-          ) : (
+          {awayFlag ? (
+          <img
+            src={awayFlag}
+            alt={match.away_team}
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        ) : (
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold"
               style={{
