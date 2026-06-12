@@ -16,7 +16,31 @@ type Match = {
   away_score: string;
   finished: string;
   time_elapsed: string;
+  home_scorers: string[];
+  away_scorers: string[];
 };
+
+function normalizeScorers(value: string | string[] | undefined): string[] {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string" && value.trim() !== "") return [value];
+  return [];
+}
+
+function normalizeMatch(raw: any): Match {
+  return {
+    date: raw.date,
+    home_team: raw.home_team,
+    away_team: raw.away_team,
+    group: raw.group,
+    stadium: raw.stadium,
+    home_score: raw.home_score,
+    away_score: raw.away_score,
+    finished: raw.finished,
+    time_elapsed: raw.time_elapsed,
+    home_scorers: normalizeScorers(raw.home_scorers),
+    away_scorers: normalizeScorers(raw.away_scorers),
+  };
+}
 
 export default function Home() {
   const [teams, setTeams]               = useState<string[]>([]);
