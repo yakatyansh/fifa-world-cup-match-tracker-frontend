@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import TeamChip from "@/components/TeamChip";
 import Hero from "@/components/Hero";
+import Navbar from "@/components/NavBar";
 
 type TeamLookup = Record<string, { iso2: string; flag?: string }>;
 
@@ -130,12 +131,15 @@ const filteredTeams = teams.filter(
 );
 
   return (
+
     <div
       className="min-h-screen transition-colors duration-300"
       style={{ backgroundColor: "var(--sp-bg-page)" }}
     >
-
-      {/* ── Nav + Hero ────────────────────────────────────────────── */}
+      <Navbar
+        isDark={theme === "dark"}
+        onToggleTheme={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+      />
       <Hero
         theme={theme}
         onToggleTheme={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
