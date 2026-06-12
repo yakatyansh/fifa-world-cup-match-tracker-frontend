@@ -182,7 +182,14 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
           >
             {match.home_team}
           </span>
+          {match.home_scorers?.length > 0 && (
+          <div className="mt-3 text-xs space-y-1 text-left">
+          {match.home_scorers.map((scorer) => (
+            <div key={scorer}>⚽ {scorer}</div>
+          ))}
         </div>
+)}
+</div>
 
       {/* Score section */}
 <div className="flex flex-col items-center justify-center gap-1">
@@ -244,7 +251,17 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
           >
             {match.away_team}
           </span>
+
+          {match.away_scorers?.length > 0 && (
+  <div className="mt-3 text-xs space-y-1 text-right">
+    {match.away_scorers.map((scorer) => (
+      <div key={scorer}>⚽ {scorer}</div>
+    ))}
+  </div>
+)}
+          
         </div>
+
 
       </div>
       <div className="mt-4 text-xs">
