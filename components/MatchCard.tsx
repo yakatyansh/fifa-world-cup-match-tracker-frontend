@@ -71,7 +71,7 @@ function formatDate(raw: string): string {
     const date = new Date(raw);
 
     if (!isNaN(date.getTime())) {
-      return date.toLocaleString("en-GB", {
+      return date.toLocaleString("en-IN", {
         weekday: "short",
         day: "numeric",
         month: "short",
