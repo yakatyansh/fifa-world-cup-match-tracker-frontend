@@ -261,32 +261,7 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
 )}
           
         </div>
-
-
       </div>
-      <div className="mt-4 text-xs">
-
-  {match.home_scorers?.length > 0 && (
-    <div className="mb-2">
-      {match.home_scorers.map((scorer) => (
-        <div key={scorer}>
-          ⚽ {scorer}
-        </div>
-      ))}
-    </div>
-  )}
-
-  {match.away_scorers?.length > 0 && (
-    <div>
-      {match.away_scorers.map((scorer) => (
-        <div key={scorer}>
-          ⚽ {scorer}
-        </div>
-      ))}
-    </div>
-  )}
-
-</div>
 
       {/* ── Footer: date + stadium ─────────────────────────────── */}
       <div
