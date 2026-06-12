@@ -188,13 +188,19 @@ const filteredTeams = teams.filter(
                 </p>
               ) : (
                 filteredTeams.slice(0, 8).map((team) => (
-                    <button
-                      key={team.id}
-                      onClick={() => addTeam(team.name_en)}
-                    >
-                      {team.name_en}
-                    </button>
-                  ))
+                <button
+                  key={team.id}
+                  role="option"
+                  aria-selected={false}
+                  onClick={() => addTeam(team.name_en)}
+                  className="block w-full text-left px-4 py-3 hover:bg-blue-500/10 transition-colors"
+                  style={{
+                    color: "var(--sp-text-primary)",
+                  }}
+                >
+                  {team.name_en}
+                </button>
+              ))
               )}
             </div>
           )}
