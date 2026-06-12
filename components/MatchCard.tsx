@@ -157,7 +157,7 @@ export default function MatchCard({ match, index = 0, teamLookup }: MatchCardPro
 </div>
 
       {/* ── Teams row ──────────────────────────────────────────── */}
-      <div className="grid grid-cols-3 items-center text-center gap-3 mb-5">
+      <div className="grid grid-cols-3 items-start text-center gap-3 mb-5">
 
         {/* Home team */}
         <div className="flex flex-col items-center gap-2">
